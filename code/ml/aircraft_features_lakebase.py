@@ -3,26 +3,32 @@
 # MAGIC # Aircraft features → Feature View → Lakebase (Step 7)
 # MAGIC
 # MAGIC Reference version of the second prompt in [Step 7: ML Models](../../docs/70-ml-models.md).
-# MAGIC It engineers **per-aircraft features** from a gold table, registers them as a feature
-# MAGIC table / **Feature View** in **Unity Catalog**, and then publishes them to a **Lakebase**
-# MAGIC online store so a model or [Databricks App](../../docs/90-lakebase-apps.md) can look up an
-# MAGIC aircraft's features in real time by `icao24`.
+# MAGIC It engineers **per-aircraft features** from the OpenSky **state vectors** table, registers
+# MAGIC them as a feature table / **Feature View** in **Unity Catalog**, and then publishes them to a
+# MAGIC **Lakebase** online store so a model or [Databricks App](../../docs/90-lakebase-apps.md) can
+# MAGIC look up an aircraft's features in real time by `icao24`.
 # MAGIC
 # MAGIC Keep it simple — a handful of features keyed by `icao24`.
 
 # COMMAND ----------
 
-dbutils.widgets.text("catalog", "marketplace", "Catalog")
-dbutils.widgets.text("schema", "opensky", "Schema")
-dbutils.widgets.text("gold_table", "gold_apac", "Gold table")
+# Source (read) — the shared, read-only marketplace table.
+dbutils.widgets.text("catalog", "marketplace", "Source catalog")
+dbutils.widgets.text("schema", "opensky", "Source schema")
+dbutils.widgets.text("table", "state_vectors", "Source table")
+# Target (write) — your own WRITABLE catalog/schema (NOT the read-only marketplace catalog).
+dbutils.widgets.text("target_catalog", "main", "Target catalog (writable)")
+dbutils.widgets.text("target_schema", "opensky_ml", "Target schema (writable)")
 dbutils.widgets.text("feature_table", "aircraft_features", "Feature table name")
 
 catalog = dbutils.widgets.get("catalog")
 schema = dbutils.widgets.get("schema")
-gold_table = dbutils.widgets.get("gold_table")
-feature_table = f"{catalog}.{schema}.{dbutils.widgets.get('feature_table')}"
+table = dbutils.widgets.get("table")
+target_catalog = dbutils.widgets.get("target_catalog")
+target_schema = dbutils.widgets.get("target_schema")
+feature_table = f"{target_catalog}.{target_schema}.{dbutils.widgets.get('feature_table')}"
 
-source_table = f"{catalog}.{schema}.{gold_table}"
+source_table = f"{catalog}.{schema}.{table}"
 print(f"Building {feature_table} from {source_table}")
 
 # COMMAND ----------
@@ -76,8 +82,8 @@ fe.create_table(
 # MAGIC
 # MAGIC To serve these features with millisecond latency, sync the feature table into a
 # MAGIC **[Lakebase](https://docs.databricks.com/aws/en/oltp/)** online store. In the UI: open the
-# MAGIC feature table, choose **Publish to online store**, and pick your Lakebase Postgres project;
-# MAGIC Databricks keeps the online copy in sync with the Delta table.
+# MAGIC feature table, choose **Publish to online store**, and pick your Lakebase Postgres project
+# MAGIC (e.g. `opensky_lakebase`); Databricks keeps the online copy in sync with the Delta table.
 # MAGIC
 # MAGIC Once published, a model or app looks features up by the `icao24` key at request time — the
 # MAGIC same key the [Databricks App](../../docs/90-lakebase-apps.md) uses — so predictions use the

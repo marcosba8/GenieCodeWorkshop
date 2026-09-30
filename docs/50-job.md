@@ -12,13 +12,13 @@ Here you build a **multi-task job**: the pipeline runs first, then a notebook ru
 
 1. Use the **same Genie Code** panel you used to build the pipeline.
 
-2. **Prompt Genie Code to create the job.** Name the pipeline you built in the [previous step](40-pipeline.md) so the job references it, then describe the schedule, retry, notification, and a second task: a notebook that runs after the pipeline.
+2. **Prompt Genie Code to create the job.** Reference the `opensky_pipeline` you built in the [previous step](40-pipeline.md) so the job points at it, then describe the schedule, retry, notification, and a second task: a notebook that runs after the pipeline.
 
    ```text
-   Create a Lakeflow Job with the pipeline task that runs my OpenSky SDP
-   pipeline on an hourly schedule. Retry once on failure and send an email
-   notification when a run fails. Also add a notebook that is executed
-   after the pipeline.
+   Create a Lakeflow Job named opensky_job with a pipeline task that runs my
+   opensky_pipeline SDP pipeline on an hourly schedule. Retry once on failure
+   and send an email notification when a run fails. Also add a notebook that is
+   executed after the pipeline.
    ```
 
 3. **Review the proposed job.** Genie Code returns a job with two tasks: a **pipeline task** pointing at your SDP pipeline (by name or pipeline ID), and a **notebook task** set to run after it. Confirm the task order, the **schedule** you asked for, and the **retry policy** with its **failure notification**.

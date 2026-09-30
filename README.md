@@ -26,8 +26,8 @@ If you are interested in OSS and data sharing, you can read the same data straig
 4. **[Genie Code - Spark Declarative Pipeline](docs/40-pipeline.md)** — ingest and clean the data into per-region gold tables.
 5. **[Genie Code - Lakeflow Job](docs/50-job.md)** — schedule and orchestrate the pipeline as a multi-task job.
 6. **[Databricks Asset Bundles (DABs)](docs/60-dabs.md)** — package and deploy the project as code. _(coming soon)_
-7. **[ML Models](docs/70-ml-models.md)** — train and register a model on the data. _(coming soon)_
-8. **[AI/BI Dashboards and Genie Agents](docs/80-dashboards.md)** — build governed dashboards and a curated Genie Agent. _(coming soon)_
+7. **[ML Models](docs/70-ml-models.md)** — train and register a flight-phase model, and serve features from Lakebase.
+8. **[AI/BI Dashboards and Genie Agents](docs/80-dashboards.md)** — build governed dashboards and a curated Genie Agent.
 9. **[Lakebase and Databricks Apps](docs/90-lakebase-apps.md)** — build a governed app on a gold table and visualize APAC flight routes on a zoomable map.
 10. **[Open Sharing](docs/100-opensharing.md)** — receive the shared data locally with the open-source client and VSCode.
 11. **[Wrap-up & next steps](docs/110-wrap-up.md)** — clean up and where to go from here.

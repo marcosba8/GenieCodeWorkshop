@@ -16,22 +16,31 @@
 # MAGIC %md
 # MAGIC ## Parameters
 # MAGIC
-# MAGIC Set these to match the gold table your [pipeline](../../docs/40-pipeline.md) produced.
+# MAGIC The **source** defaults to the OpenSky state vectors table used throughout the workshop
+# MAGIC (`marketplace.opensky.state_vectors`). The **target** is where the model is registered — it
+# MAGIC must be a **writable** catalog/schema, because the `marketplace` catalog is a read-only
+# MAGIC Delta Sharing catalog. Change any of these if you personalized `config.yml`.
 
 # COMMAND ----------
 
-dbutils.widgets.text("catalog", "marketplace", "Catalog")
-dbutils.widgets.text("schema", "opensky", "Schema")
-dbutils.widgets.text("gold_table", "gold_apac", "Gold table")
-dbutils.widgets.text("model_name", "flight_phase_clf", "Registered model name")
+# Source (read) — the shared, read-only marketplace table.
+dbutils.widgets.text("catalog", "marketplace", "Source catalog")
+dbutils.widgets.text("schema", "opensky", "Source schema")
+dbutils.widgets.text("table", "state_vectors", "Source table")
+# Target (write) — your own WRITABLE catalog/schema (NOT the read-only marketplace catalog).
+dbutils.widgets.text("target_catalog", "main", "Target catalog (writable)")
+dbutils.widgets.text("target_schema", "opensky_ml", "Target schema (writable)")
+dbutils.widgets.text("model_name", "flight_phase_model", "Registered model name")
 
 catalog = dbutils.widgets.get("catalog")
 schema = dbutils.widgets.get("schema")
-gold_table = dbutils.widgets.get("gold_table")
+table = dbutils.widgets.get("table")
+target_catalog = dbutils.widgets.get("target_catalog")
+target_schema = dbutils.widgets.get("target_schema")
 model_name = dbutils.widgets.get("model_name")
 
-source_table = f"{catalog}.{schema}.{gold_table}"
-registered_model = f"{catalog}.{schema}.{model_name}"
+source_table = f"{catalog}.{schema}.{table}"
+registered_model = f"{target_catalog}.{target_schema}.{model_name}"
 print(f"Training on {source_table} -> registering {registered_model}")
 
 # COMMAND ----------
@@ -40,8 +49,8 @@ print(f"Training on {source_table} -> registering {registered_model}")
 # MAGIC ## Load and label the data
 # MAGIC
 # MAGIC Derive the four-phase label with the same definition used in the
-# MAGIC [explore step](../../docs/30-genie-explore.md), then sample to keep training fast on Free
-# MAGIC Edition.
+# MAGIC [explore step](../../docs/30-genie-explore.md), then sample the large state-vectors table to
+# MAGIC keep training fast on Free Edition.
 
 # COMMAND ----------
 

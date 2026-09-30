@@ -3,8 +3,9 @@
 ## What you'll do
 
 The [explore step](30-genie-explore.md) answered one-off questions with Genie Agents. Now you make
-that self-service and persistent: a shareable **AI/BI Dashboard** on your gold tables, plus a
-curated **Genie Agent** wired into it so anyone can keep asking questions in plain English.
+that self-service and persistent: a shareable **AI/BI Dashboard** on the same OpenSky **state
+vectors** table (`{{ fqn }}`), plus a curated **Genie Agent** wired into it so anyone can keep
+asking questions in plain English.
 
 As before, you don't hand-build charts or write SQL. You describe the dashboard you want and Genie
 does the work — proposing datasets, picking chart types, and laying out the page.
@@ -25,14 +26,14 @@ Together: the dashboard shows the metrics you know matter; the Genie Agent handl
 
 > **Step 1: Build the dashboard from a prompt**
 >
-> Open a new **AI/BI Dashboard** and describe the overview you want on your gold tables. Genie
-> proposes the datasets and widgets:
+> Open a new **AI/BI Dashboard** and describe the overview you want on the state vectors table.
+> Genie proposes the datasets and widgets:
 >
 > ```text
-> Build a dashboard on gold_analytics_regional_summary and the gold_americas,
-> gold_emea, and gold_apac tables. Put three KPI tiles across the top — total
-> state vectors, distinct aircraft, and average velocity — then a bar chart of
-> record count by region and a histogram of baro_altitude. Add a region filter.
+> Build a dashboard named "OpenSky Flights" on {{ fqn }}. Put three KPI tiles across the top — total
+> state vectors, distinct aircraft (distinct icao24), and average velocity — then
+> a histogram of baro_altitude and a bar chart of record count by hour of
+> time_position. Add a filter on on_ground.
 > ```
 >
 > **Step 2: Add a map and refine**
@@ -40,20 +41,19 @@ Together: the dashboard shows the metrics you know matter; the Genie Agent handl
 > Follow up in plain English to add or change widgets. Genie edits the dashboard in place:
 >
 > ```text
-> Add a point map of the most recent position per aircraft in gold_apac, colored
-> by velocity. Format the KPI tiles with compact numbers, and order the region
-> bar chart from highest to lowest.
+> Add a point map of the most recent position per aircraft, colored by velocity.
+> Format the KPI tiles with compact numbers, and order the hourly bar chart by hour.
 > ```
 >
 > **Step 3: Create a Genie Agent on the same data**
 >
-> Create a **Genie Agent** over the gold tables so users can ask free-form questions:
+> Create a **Genie Agent** over the state vectors table so users can ask free-form questions:
 >
 > ```text
-> Create a Genie Agent on gold_americas, gold_emea, and gold_apac. Add
-> instructions that "flight phase" is Ground when on_ground, Climb when
-> vertical_rate > 1.5, Descent when vertical_rate < -1.5, otherwise Cruise, and
-> add example questions about busiest regions and altitude distribution.
+> Create a Genie Agent named "OpenSky Genie" on {{ fqn }}. Add instructions that "flight phase" is
+> Ground when on_ground, Climb when vertical_rate > 1.5, Descent when
+> vertical_rate < -1.5, otherwise Cruise, and add example questions about the
+> busiest hours and the altitude distribution.
 > ```
 >
 > **Step 4: Link the Genie Agent into the dashboard**
@@ -63,8 +63,8 @@ Together: the dashboard shows the metrics you know matter; the Genie Agent handl
 
 ## What you'll see
 
-- A published dashboard with **KPI tiles, a regional bar chart, an altitude histogram, and a
-  map**, all filterable by region and refreshing live from your gold tables.
+- A published dashboard with **KPI tiles, an altitude histogram, an hourly-volume bar chart, and a
+  map**, all filterable and refreshing live from `{{ fqn }}`.
 - A **Genie Agent** that answers plain-English questions with SQL, results, and charts — reachable
   from the dashboard's **Ask Genie** button.
 
@@ -85,9 +85,9 @@ A few things worth knowing once the basics work:
 
 ## Recap
 
-You built a governed **AI/BI Dashboard** on your gold tables and a curated **Genie Agent**, then
-linked them so the dashboard both shows the key metrics and answers open-ended questions — all
-from plain-English prompts. Next you serve this same governed data through a Databricks App.
+You built a governed **AI/BI Dashboard** on `{{ fqn }}` and a curated **Genie Agent**, then linked
+them so the dashboard both shows the key metrics and answers open-ended questions — all from
+plain-English prompts. Next you serve this same governed data through a Databricks App.
 
 ---
 

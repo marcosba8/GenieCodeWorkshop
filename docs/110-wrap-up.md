@@ -18,9 +18,10 @@ In seven steps you went from a shared Marketplace dataset to a governed app, sel
 
 To undo everything on Free Edition:
 
-- Delete the **[Databricks App](90-lakebase-apps.md)**.
-- Delete the **[Lakeflow Job](50-job.md)**.
-- Delete the **[pipeline](40-pipeline.md)** and its gold tables.
+- Delete the **[Databricks App](90-lakebase-apps.md)** (`opensky-flights`).
+- Delete the **[Lakeflow Job](50-job.md)** (`opensky_job`).
+- Delete the **[pipeline](40-pipeline.md)** (`opensky_pipeline`) and its gold tables.
+- Delete the `flight_phase_model` model and `aircraft_features` Feature View from the [ML step](70-ml-models.md), and the `opensky_lakebase` Lakebase project.
 - Remove the **[Marketplace](10-marketplace.md)** catalog (`{{ catalog }}`) from Catalog Explorer.
 - On your laptop, delete the `opensky.share` credential file from [Open Sharing](100-opensharing.md). It carries a bearer token, so treat it as a secret.
 

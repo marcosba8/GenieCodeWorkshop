@@ -2,9 +2,10 @@
 
 ## What you'll do
 
-The [pipeline](40-pipeline.md) turned raw telemetry into clean per-region gold tables. Now you
-use those tables to train a **machine learning model** — and, as with every step so far, you
-describe what you want in plain English and **Genie Code** writes and runs the code.
+The [EDA](20-genie-eda.md) and [explore](30-genie-explore.md) steps profiled the OpenSky **state
+vectors**. Now you use that same table — `{{ fqn }}` — to train a **machine learning model**, and,
+as with every step so far, you describe what you want in plain English and **Genie Code** writes
+and runs the code.
 
 Genie Code includes a **[Data Science Agent](https://docs.databricks.com/aws/en/notebooks/ds-agent)**:
 an AI partner that lives in the notebook, plans a multi-step ML workflow, generates the code,
@@ -33,9 +34,9 @@ You approve steps one at a time, or turn on auto-approval once you trust the pla
 
 > **Step 1: Open Genie Code in a notebook**
 >
-> Create a new notebook on serverless compute and open the **Genie Code** panel. Add your gold
-> table as context (for example `@gold_apac` from the [pipeline](40-pipeline.md); on Free Edition
-> the smaller regional tables train fastest).
+> Create a new notebook on serverless compute and open the **Genie Code** panel. Add the state
+> vectors table as context — `@{{ table }}` (i.e. `{{ fqn }}`). It's a large table, so let Genie
+> sample it; the reference notebook caps training at ~200k rows so it runs quickly on Free Edition.
 >
 > **Step 2: Prompt Genie Code to train the model**
 >
@@ -43,12 +44,13 @@ You approve steps one at a time, or turn on auto-approval once you trust the pla
 > then writes the feature-prep, training, evaluation, and registration cells:
 >
 > ```text
-> Using @gold_apac, train a model to classify each state vector's flight phase.
+> Using @{{ table }}, train a model to classify each state vector's flight phase.
 > Derive the label as: "Ground" when on_ground, "Climb" when vertical_rate > 1.5,
 > "Descent" when vertical_rate < -1.5, otherwise "Cruise". Use baro_altitude,
-> geo_altitude, velocity, and true_track as features. Track the run with MLflow
-> autologging, print a classification report and confusion matrix, and register
-> the best model to Unity Catalog.
+> geo_altitude, velocity, and true_track as features. Sample the data to keep
+> training fast. Track the run with MLflow autologging, print a classification
+> report and confusion matrix, and register the best model to Unity Catalog as
+> flight_phase_model.
 > ```
 >
 > **Step 3: Approve and review**
@@ -60,8 +62,9 @@ You approve steps one at a time, or turn on auto-approval once you trust the pla
 
 - An **MLflow run** under the notebook's experiment, with the model's accuracy / F1 and a
   confusion matrix logged as artifacts.
-- A **registered model** in Unity Catalog (a three-part name like `<catalog>.<schema>.flight_phase_clf`)
-  that any notebook, job, or serving endpoint can load.
+- A **registered model** in Unity Catalog named `flight_phase_model`, that any notebook, job, or
+  serving endpoint can load. Register it in **your own writable catalog** — the shared `{{ catalog }}`
+  marketplace catalog is read-only, so pick a catalog you can create objects in.
 - A short **classification report** in the notebook output showing how well each phase is predicted.
 
 A reference version of the notebook Genie Code produces lives in `code/ml/flight_phase_model.py`
@@ -69,8 +72,8 @@ so you have a copy-paste starting point.
 
 ## Serve features online with a Feature View and Lakebase
 
-Training on a gold table is a batch workflow. For **real-time** use — a model or app that needs an
-aircraft's features the instant a request arrives — you precompute features once and serve them
+Training on the full table is a batch workflow. For **real-time** use — a model or app that needs
+an aircraft's features the instant a request arrives — you precompute features once and serve them
 from a low-latency store. On Databricks that store is **[Lakebase](https://docs.databricks.com/aws/en/oltp/)**,
 a serverless Postgres online layer, and the features are defined as a **Feature View** in Unity
 Catalog and synced to Lakebase for millisecond lookups.
@@ -80,17 +83,18 @@ Ask Genie Code to build it, in the same style as before:
 > **Prompt: aircraft features as a Feature View served from Lakebase**
 >
 > ```text
-> From @gold_apac, engineer per-aircraft features keyed by icao24: average
+> From @{{ table }}, engineer per-aircraft features keyed by icao24: average
 > velocity, maximum baro_altitude, total number of state vectors, and the share
-> of records where on_ground is true. Create a Feature View for these features in
-> Unity Catalog, then publish it to a Lakebase online store so a model or app can
-> look up an aircraft's features in real time by icao24.
+> of records where on_ground is true. Create a Feature View named aircraft_features
+> in Unity Catalog, then publish it to a Lakebase online store (project
+> opensky_lakebase) so a model or app can look up an aircraft's features in real
+> time by icao24.
 > ```
 
 Genie Code creates the feature computation, registers the **Feature View** in Unity Catalog, and
 sets up the **Lakebase** online store so the features are available for low-latency serving. The
-same `icao24` key that identifies an aircraft in the gold table becomes the lookup key online —
-so the [Databricks App](90-lakebase-apps.md) in a later step can fetch a plane's features in
+same `icao24` key that identifies an aircraft in `{{ fqn }}` becomes the lookup key online — so the
+[Databricks App](90-lakebase-apps.md) in a later step can fetch a plane's features in
 milliseconds. A reference version lives in `code/ml/aircraft_features_lakebase.py`.
 
 ## Machine Learning — Beyond the Basics
@@ -114,11 +118,11 @@ A few things worth knowing once the basics work:
 
 ## Recap
 
-You trained a **flight-phase classifier** from a plain-English prompt: Genie Code prepared the
-features, trained and evaluated the model, tracked it in **MLflow**, and registered it to **Unity
-Catalog** — no hand-written training loop. You also defined a **Feature View** and served it from
-**Lakebase** so the same features are available for real-time lookups. Next you put governed data
-and features to work in an app.
+You trained a **flight-phase classifier** on `{{ fqn }}` from a plain-English prompt: Genie Code
+prepared the features, trained and evaluated the model, tracked it in **MLflow**, and registered
+it to **Unity Catalog** — no hand-written training loop. You also defined a **Feature View** and
+served it from **Lakebase** so the same features are available for real-time lookups. Next you put
+governed data and features to work in an app.
 
 ---
 

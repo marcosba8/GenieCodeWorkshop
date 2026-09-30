@@ -2,7 +2,9 @@
 
 ## Lakebase
 
-> _This section is coming soon._
+> _Full walkthrough coming soon._ This section builds on the **`opensky_lakebase`** online store
+> from [Step 7](70-ml-models.md) — the serverless Postgres layer that serves the `aircraft_features`
+> Feature View for low-latency lookups, which a Databricks App can read from directly.
 
 ## Databricks Apps
 
@@ -34,7 +36,7 @@ Coding agents such as **Claude Code**, **Codex**, and Databricks **Genie Code** 
 
 > **Step 1: Create the Databricks App**
 >
-> In your workspace, create a new **Databricks App**. On Free Edition you can run up to three at once.
+> In your workspace, create a new **Databricks App** named `opensky-flights`. On Free Edition you can run up to three at once.
 >
 > **Step 2: Generate and deploy it from a prompt**
 >
