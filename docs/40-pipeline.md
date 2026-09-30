@@ -21,7 +21,7 @@ orchestration, incremental refresh, and data-quality enforcement. You generate t
    While there are cleverer ways to subsample a dataset, we deliberately go the easy way here: to make this more suitable for Databricks Free Edition, you reduce the amount of data ingested to the flights between 12:00 and 12:15. We want to keep the prompt short here, but feel free to add more requirements regarding missing data values from the previous EDA step 
 
    ```text
-   Create an SDP pipeline to process the OpenSky data from marketplace.opensky with data-quality constraints 
+   Create an SDP pipeline to process the OpenSky data from {{ catalog }}.{{ schema }} with data-quality constraints 
    based on the findings above. Create a separate gold table with data for each of 
    the regions Americas, EMEA, and APAC.
    Add a materialized view that provides analytics summary for all the gold tables.

@@ -38,7 +38,7 @@ Coding agents such as **Claude Code**, **Codex**, and Databricks **Genie Code** 
 >
 > **Step 2: Generate and deploy it from a prompt**
 >
-> Open **Genie Code** in the app and describe what you want in plain English: name the dataset (your pipeline's gold table, or `marketplace.opensky.state_vectors` for a quick proof of concept), say how the data should load, list the views and how to navigate between them, then ask it to build and deploy.
+> Open **Genie Code** in the app and describe what you want in plain English: name the dataset (your pipeline's gold table, or `{{ fqn }}` for a quick proof of concept), say how the data should load, list the views and how to navigate between them, then ask it to build and deploy.
 
 ## Going further with Databricks Apps
 

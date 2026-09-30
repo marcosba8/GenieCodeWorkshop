@@ -15,7 +15,7 @@ copying and no ETL required.
 | **Dataset** | OpenSky Networks – full day ADS-B telemetry from Marketplace|
 | **Coverage** | One full UTC day (2026-03-01) |
 | **Size** | ~696 million rows across 54,093 distinct aircraft |
-| **Resulting table** | `marketplace.opensky.state_vectors`, one aircraft state vector per row |
+| **Resulting table** | `{{ fqn }}`, one aircraft state vector per row |
 | **Columns** | Each row describes an aircraft's position and motion at a point in time, such as `latitude`, `longitude`, `velocity`, and `baro_altitude`. |
 
 ## Step-by-step guide
@@ -28,14 +28,14 @@ copying and no ETL required.
 
 3. **Request access to the data.** On the dataset listing page, click the blue **Get instant access** button in the top right corner.
 
-4. **Configure the catalog name.** In the modal window, expand **More options**, then under **Catalog name** replace the default long string with `marketplace`. Click **Get instant access**.
+4. **Configure the catalog name.** In the modal window, expand **More options**, then under **Catalog name** replace the default long string with `{{ catalog }}`. Click **Get instant access**.
 
    > [!IMPORTANT]
-   > Get the catalog name exactly right. Set it to `marketplace`. **Every later step in this tutorial uses the three-part name `marketplace.opensky.state_vectors`**, so a different catalog name will break the steps that follow.
+   > Get the catalog name exactly right. Set it to `{{ catalog }}`. **Every later step in this tutorial uses the three-part name `{{ fqn }}`**, so a different catalog name will break the steps that follow. (Using different names? Set them once in `config.yml` and every page updates automatically.)
 
 5. **Navigate to Catalog Explorer.** Once installed, click **Catalog** from the left-hand main navigation sidebar.
 
-6. **View the table data.** In the left-hand panel under **Shares received**, expand `marketplace` > `opensky` > **Tables** and select `state_vectors`. Switch to the **Sample Data** tab in the main view to inspect rows containing UTC flight telemetry, call signs, and coordinates.
+6. **View the table data.** In the left-hand panel under **Shares received**, expand `{{ catalog }}` > `{{ schema }}` > **Tables** and select `{{ table }}`. Switch to the **Sample Data** tab in the main view to inspect rows containing UTC flight telemetry, call signs, and coordinates.
 
 ## Databricks Marketplace — Beyond the Basics
 
@@ -48,14 +48,14 @@ A few things worth knowing once the basics work:
 
 ## Recap
 
-You now have a read-only table at **`marketplace.opensky.state_vectors`**. Confirm it from a SQL editor:
+You now have a read-only table at **`{{ fqn }}`**. Confirm it from a SQL editor:
 
 ```sql
-SELECT * FROM marketplace.opensky.state_vectors LIMIT 10;
+SELECT * FROM {{ fqn }} LIMIT 10;
 ```
 
 ```sql
-DESCRIBE marketplace.opensky.state_vectors;
+DESCRIBE {{ fqn }};
 ```
 
 You should see ADS-B state-vector columns such as `icao24`, `callsign`, `time_position`,

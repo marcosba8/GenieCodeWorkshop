@@ -6,25 +6,36 @@ then pushes a predicate to the sharing server so only matching files cross the
 network (baro_altitude < 3000 m), and re-applies the filter in pandas for an exact
 result.
 
-Setup (see ./README.md or Step 7):
+Setup (see ./README.md or Step 10):
     uv venv --python 3.12 --seed
     source .venv/bin/activate
     uv pip install delta-sharing pandas
 
 Run:
     python receive_opensky.py
+
+Personalize (optional): edit the constants below, or override without touching
+the file via environment variables, e.g.
+    SHARE=my_share SCHEMA=my_schema TABLE=my_table python receive_opensky.py
 """
 
 import json
+import os
 
 import delta_sharing
 
-# Point this at your Delta Sharing profile (.share) file — download it from the
-# Databricks Marketplace listing ("Download credential file"). The table path is
-# "<profile>#<share>.<schema>.<table>"; adjust <share> to the share name in your
-# credential file (list_all_tables prints it).
-PROFILE = "opensky.share"
-TABLE = f"{PROFILE}#opensky_marketplace.opensky.state_vectors"
+# --- Personalize here -------------------------------------------------------
+# Point PROFILE at your Delta Sharing profile (.share) file — download it from
+# the Databricks Marketplace listing ("Download credential file"). The table
+# path is "<profile>#<share>.<schema>.<table>"; run once and list_all_tables()
+# below prints the exact share/schema/table names in your credential file.
+PROFILE = os.getenv("PROFILE", "opensky.share")
+SHARE = os.getenv("SHARE", "opensky_marketplace")
+SCHEMA = os.getenv("SCHEMA", "opensky")
+TABLE_NAME = os.getenv("TABLE", "state_vectors")
+# ----------------------------------------------------------------------------
+
+TABLE = f"{PROFILE}#{SHARE}.{SCHEMA}.{TABLE_NAME}"
 
 client = delta_sharing.SharingClient(PROFILE)
 for t in client.list_all_tables():          # what the share exposes

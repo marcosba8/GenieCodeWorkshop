@@ -61,8 +61,10 @@ This module stays entirely open source, so the code below is given to you to cop
 >
 > import delta_sharing
 >
+> # Personalize these to match your credential file (list_all_tables prints them):
 > PROFILE = "opensky.share"
-> TABLE = f"{PROFILE}#opensky_marketplace.opensky.state_vectors"   # adjust <share> to your credential file
+> SHARE, SCHEMA, TABLE_NAME = "opensky_marketplace", "opensky", "state_vectors"
+> TABLE = f"{PROFILE}#{SHARE}.{SCHEMA}.{TABLE_NAME}"
 >
 > client = delta_sharing.SharingClient(PROFILE)
 > for t in client.list_all_tables():          # what the share exposes

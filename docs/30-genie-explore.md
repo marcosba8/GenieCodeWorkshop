@@ -14,7 +14,7 @@ Where [the EDA step](20-genie-eda.md) was focused on data quality and finding an
 
 ## Step-by-step guide
 
-1. **Open your Genie Agent.** Create a new Genie Agent on the table `marketplace.opensky.state_vectors`.
+1. **Open your Genie Agent.** Create a new Genie Agent on the table `{{ fqn }}`.
 
 2. **Ask for a visualization.** Enter one of the prompts below in the chat box. Genie returns the generated SQL, the result set, and a chart or map. Then ask follow-ups to refine it: change the chart type, add a filter, or split by another column.
 
@@ -69,7 +69,7 @@ WITH one_row_per_aircraft AS (
     `vertical_rate`,
     ROW_NUMBER() OVER (PARTITION BY `icao24` ORDER BY RAND()) AS rn
   FROM
-    `marketplace`.`opensky`.`state_vectors`
+    `{{ catalog }}`.`{{ schema }}`.`{{ table }}`
   WHERE
     `baro_altitude` IS NOT NULL
     AND `velocity` IS NOT NULL

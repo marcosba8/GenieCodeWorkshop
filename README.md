@@ -38,6 +38,23 @@ TL;DR what this tutorial shows: Marketplace → Genie Agents & Genie Code (EDA) 
 → ML Models → AI/BI Dashboards & Genie Agents → Lakebase & Databricks Apps → Open Sharing with OSS
 ```
 
+## Personalize this workshop
+
+The tutorial defaults to the dataset `marketplace.opensky.state_vectors`. If you named your
+catalog, schema, or table differently, set them once in [`config.yml`](config.yml):
+
+```yaml
+catalog: marketplace
+schema: opensky
+table: state_vectors
+```
+
+Those values flow into every page, SQL snippet, and Genie prompt via
+[mkdocs-macros](https://mkdocs-macros-plugin.readthedocs.io/) (rendered as `{{ catalog }}.{{ schema }}.{{ table }}`),
+so `mkdocs serve` / `mkdocs build` regenerates the whole site with your names. The local
+[Open Sharing client](code/opensharing/receive_opensky.py) reads the same values from
+constants (or `SHARE` / `SCHEMA` / `TABLE` environment variables).
+
 ## How to use this tutorial
 
 This is a guided overview, not a click-by-click manual. Each page sketches the path and highlights the prompts that matter, rather than documenting every button and menu. It's suitable for a workshop: an instructor demos each step live while the audience follows along. Working on your own is fine too. Then treat each page as the map, explore, and let Genie do the AI-powered driving.

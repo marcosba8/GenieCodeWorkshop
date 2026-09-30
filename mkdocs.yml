@@ -24,6 +24,9 @@ theme:
 plugins:
   - search
   - callouts   # convert GitHub-style > [!NOTE] alerts into Material admonitions
+  - macros:    # render {{ catalog }}.{{ schema }}.{{ table }} / {{ fqn }} from config.yml
+      include_yaml:
+        - config.yml
 
 markdown_extensions:
   - admonition

@@ -10,7 +10,7 @@ analysis. Skip it and you build on data you don't understand.
 ## How to run EDA with Genie Agents or Genie Code?
 
 **Genie Code and Genie Agents** run your EDA for you. Point either one at
-`marketplace.opensky.state_vectors` and ask, in plain English, to profile the columns and flag
+`{{ fqn }}` and ask, in plain English, to profile the columns and flag
 impossible values. The agent writes and runs the SQL, summarizes the results, and explains each
 anomaly in avionics context. You profile a brand-new dataset in minutes, without writing a single
 query.
@@ -22,7 +22,7 @@ query.
 2. **Enter the prompt.** In the prompt input box, name the target dataset and the analysis parameters. Prompt template shown in the recording:
 
    ```text
-   Run a comprehensive EDA for @state_vectors; check the key columns for
+   Run a comprehensive EDA for @{{ table }}; check the key columns for
    null values and any out-of-range or impossible values. Provide a list of
    issues with explanations in the OpenSky avionics context
    ```

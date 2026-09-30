@@ -21,7 +21,7 @@ To undo everything on Free Edition:
 - Delete the **[Databricks App](90-lakebase-apps.md)**.
 - Delete the **[Lakeflow Job](50-job.md)**.
 - Delete the **[pipeline](40-pipeline.md)** and its gold tables.
-- Remove the **[Marketplace](10-marketplace.md)** catalog (`marketplace`) from Catalog Explorer.
+- Remove the **[Marketplace](10-marketplace.md)** catalog (`{{ catalog }}`) from Catalog Explorer.
 - On your laptop, delete the `opensky.share` credential file from [Open Sharing](100-opensharing.md). It carries a bearer token, so treat it as a secret.
 
 ## Take it further
