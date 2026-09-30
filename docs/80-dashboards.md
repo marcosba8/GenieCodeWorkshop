@@ -1,6 +1,93 @@
-# 8. AI/BI Dashboards and Genie Agents
+# 8. Build AI/BI Dashboards and Genie Agents
 
-> _This section is coming soon._
+## What you'll do
+
+The [explore step](30-genie-explore.md) answered one-off questions with Genie Agents. Now you make
+that self-service and persistent: a shareable **AI/BI Dashboard** on your gold tables, plus a
+curated **Genie Agent** wired into it so anyone can keep asking questions in plain English.
+
+As before, you don't hand-build charts or write SQL. You describe the dashboard you want and Genie
+does the work — proposing datasets, picking chart types, and laying out the page.
+
+## How do AI/BI Dashboards and Genie Agents fit together?
+
+- **[AI/BI Dashboards](https://docs.databricks.com/aws/en/dashboards/)** are governed dashboards
+  that read live from Unity Catalog through a SQL warehouse. You author them from plain-English
+  prompts, and every viewer sees data filtered by their own permissions.
+- **[Genie Agents](https://docs.databricks.com/aws/en/genie-agents/)** turn a set of tables into a
+  conversational agent: ask a question, get the SQL, the result, and a chart. You can **embed a
+  Genie Agent in a dashboard** as an "Ask Genie" surface, so the dashboard answers the questions
+  you didn't think to chart.
+
+Together: the dashboard shows the metrics you know matter; the Genie Agent handles everything else.
+
+## Step-by-step guide
+
+> **Step 1: Build the dashboard from a prompt**
+>
+> Open a new **AI/BI Dashboard** and describe the overview you want on your gold tables. Genie
+> proposes the datasets and widgets:
+>
+> ```text
+> Build a dashboard on gold_analytics_regional_summary and the gold_americas,
+> gold_emea, and gold_apac tables. Put three KPI tiles across the top — total
+> state vectors, distinct aircraft, and average velocity — then a bar chart of
+> record count by region and a histogram of baro_altitude. Add a region filter.
+> ```
+>
+> **Step 2: Add a map and refine**
+>
+> Follow up in plain English to add or change widgets. Genie edits the dashboard in place:
+>
+> ```text
+> Add a point map of the most recent position per aircraft in gold_apac, colored
+> by velocity. Format the KPI tiles with compact numbers, and order the region
+> bar chart from highest to lowest.
+> ```
+>
+> **Step 3: Create a Genie Agent on the same data**
+>
+> Create a **Genie Agent** over the gold tables so users can ask free-form questions:
+>
+> ```text
+> Create a Genie Agent on gold_americas, gold_emea, and gold_apac. Add
+> instructions that "flight phase" is Ground when on_ground, Climb when
+> vertical_rate > 1.5, Descent when vertical_rate < -1.5, otherwise Cruise, and
+> add example questions about busiest regions and altitude distribution.
+> ```
+>
+> **Step 4: Link the Genie Agent into the dashboard**
+>
+> In the dashboard settings, enable **Ask Genie** and point it at the Genie Agent you just built.
+> Now the dashboard carries both the curated views and a conversational way to go beyond them.
+
+## What you'll see
+
+- A published dashboard with **KPI tiles, a regional bar chart, an altitude histogram, and a
+  map**, all filterable by region and refreshing live from your gold tables.
+- A **Genie Agent** that answers plain-English questions with SQL, results, and charts — reachable
+  from the dashboard's **Ask Genie** button.
+
+## AI/BI Dashboards and Genie Agents — Beyond the Basics
+
+A few things worth knowing once the basics work:
+
+- **[Choose the right visualization](https://docs.databricks.com/aws/en/dashboards/manage/visualizations/types)** —
+  AI/BI offers ~20 chart types (point and choropleth maps, heatmaps, histograms, combo charts,
+  funnels, Sankey). Use it when a default chart doesn't tell the story; just ask Genie to switch it.
+- **Cross-filtering** — clicking a bar or map point filters every other widget backed by the same
+  dataset. Use it to drill from an overview into a slice without building extra filters.
+- **[Curate the Genie Agent](https://docs.databricks.com/aws/en/genie-agents/best-practices)** —
+  add instructions, metric definitions, and verified example SQL so the agent answers domain
+  questions your way every time. Use it when you keep re-explaining the same joins or filters.
+- **Scheduled refresh and alerts** — publish the dashboard on a refresh schedule and set alerts on
+  a metric threshold. Use it when stakeholders should see fresh numbers without opening the tool.
+
+## Recap
+
+You built a governed **AI/BI Dashboard** on your gold tables and a curated **Genie Agent**, then
+linked them so the dashboard both shows the key metrics and answers open-ended questions — all
+from plain-English prompts. Next you serve this same governed data through a Databricks App.
 
 ---
 
