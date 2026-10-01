@@ -25,7 +25,7 @@ If you are interested in OSS and data sharing, you can read the same data straig
 3. **[Genie Agents - explore & visualize](docs/30-genie-explore.md)** — explore and visualize the data.
 4. **[Genie Code - Spark Declarative Pipeline](docs/40-pipeline.md)** — ingest and clean the data into per-region gold tables.
 5. **[Genie Code - Lakeflow Job](docs/50-job.md)** — schedule and orchestrate the pipeline as a multi-task job.
-6. **[Databricks Asset Bundles (DABs)](docs/60-dabs.md)** — package and deploy the project as code. _(coming soon)_
+6. **[Declarative Automation Bundles (DABs)](docs/60-dabs.md)** — package and deploy the project as code.
 7. **[ML Models](docs/70-ml-models.md)** — train and register a flight-phase model, and serve features from Lakebase.
 8. **[AI/BI Dashboards and Genie Agents](docs/80-dashboards.md)** — build governed dashboards and a curated Genie Agent.
 9. **[Lakebase and Databricks Apps](docs/90-lakebase-apps.md)** — build a governed app on a gold table and visualize APAC flight routes on a zoomable map.
@@ -34,7 +34,7 @@ If you are interested in OSS and data sharing, you can read the same data straig
 
 ```text
 TL;DR what this tutorial shows: Marketplace → Genie Agents & Genie Code (EDA) → Genie Agents (explore & visualize) 
-→ Genie Code for Declarative Pipeline → Genie Code for a Lakeflow Job → Databricks Asset Bundles 
+→ Genie Code for Declarative Pipeline → Genie Code for a Lakeflow Job → Declarative Automation Bundles 
 → ML Models → AI/BI Dashboards & Genie Agents → Lakebase & Databricks Apps → Open Sharing with OSS
 ```
 

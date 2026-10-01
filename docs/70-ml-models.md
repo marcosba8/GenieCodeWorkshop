@@ -130,4 +130,4 @@ governed data and features to work in an app.
 
 | ← Previous | Overview | Next → |
 |:---|:---:|---:|
-| [6. Databricks Asset Bundles (DABs)](60-dabs.md) | [Table of contents](index.md) | [8. AI/BI Dashboards and Genie Agents](80-dashboards.md) |
+| [6. Declarative Automation Bundles (DABs)](60-dabs.md) | [Table of contents](index.md) | [8. AI/BI Dashboards and Genie Agents](80-dashboards.md) |

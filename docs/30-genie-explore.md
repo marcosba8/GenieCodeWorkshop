@@ -14,9 +14,16 @@ Where [the EDA step](20-genie-eda.md) was focused on data quality and finding an
 
 ## Step-by-step guide
 
-1. **Open your Genie Agent.** Create a new Genie Agent on the table `{{ fqn }}`.
+1. **Open the Genie Agents section.** In your Databricks workspace, click **Genie** in the left-hand navigation to open the Genie Agents section.
 
-2. **Ask for a visualization.** Enter one of the prompts below in the chat box. Genie returns the generated SQL, the result set, and a chart or map. Then ask follow-ups to refine it: change the chart type, add a filter, or split by another column.
+2. **Create and configure the agent.** Start a new Genie Agent and enter the prompt below. In one pass, Genie creates the space on `{{ fqn }}`, adds any supporting metric views, and applies the general instructions, reusable knowledge, example queries, and starter questions:
+
+   ```text
+   Create a new Genie Agent on @{{ table }}. Implement all the important
+   configurations, and create any supporting metric views it needs.
+   ```
+
+3. **Ask for a visualization.** Enter one of the prompts below in the chat box. Genie returns the generated SQL, the result set, and a chart or map. Then ask follow-ups to refine it: change the chart type, add a filter, or split by another column.
 
 ## Prompts to try
 

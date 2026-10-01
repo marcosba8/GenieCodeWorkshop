@@ -57,4 +57,4 @@ You wrapped the Spark Declarative Pipeline in a **Lakeflow Job**: a scheduled, m
 
 | ← Previous | Overview | Next → |
 |:---|:---:|---:|
-| [4. Declarative Pipeline](40-pipeline.md) | [Table of contents](index.md) | [6. Databricks Asset Bundles (DABs)](60-dabs.md) |
+| [4. Declarative Pipeline](40-pipeline.md) | [Table of contents](index.md) | [6. Declarative Automation Bundles (DABs)](60-dabs.md) |
